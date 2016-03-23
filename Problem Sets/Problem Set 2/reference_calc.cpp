@@ -2,7 +2,8 @@
 #include <cassert>
 // for uchar4 struct
 #include <cuda_runtime.h>
-
+#include <chrono>
+#include <iostream>
 void channelConvolution(const unsigned char* const channel,
                         unsigned char* const channelBlurred,
                         const size_t numRows, const size_t numCols,
@@ -10,6 +11,11 @@ void channelConvolution(const unsigned char* const channel,
 {
   //Dealing with an even width filter is trickier
   assert(filterWidth % 2 == 1);
+
+  //Chrono Benchmark
+  typedef std::chrono::high_resolution_clock Clock;
+  typedef std::chrono::milliseconds milliseconds;
+  Clock::time_point t0 = Clock::now();
 
   //For every pixel in the image
   for (int r = 0; r < (int)numRows; ++r) {
@@ -33,6 +39,11 @@ void channelConvolution(const unsigned char* const channel,
       channelBlurred[r * numCols + c] = result;
     }
   }
+
+  // Chrono Benchmark End
+  Clock::time_point t1 = Clock::now();
+  milliseconds ms = std::chrono::duration_cast<milliseconds>(t1 - t0);
+  std::cout << ms.count() << "ms\n";
 }
 
 void referenceCalculation(const uchar4* const rgbaImage, uchar4 *const outputImage,

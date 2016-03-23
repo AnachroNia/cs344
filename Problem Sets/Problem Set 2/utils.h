@@ -16,6 +16,7 @@ void check(T err, const char* const func, const char* const file, const int line
   if (err != cudaSuccess) {
     std::cerr << "CUDA error at: " << file << ":" << line << std::endl;
     std::cerr << cudaGetErrorString(err) << " " << func << std::endl;
+	system("pause");
     exit(1);
   }
 }
@@ -30,6 +31,7 @@ void checkResultsExact(const T* const ref, const T* const gpu, size_t numElem) {
       //with other types
       std::cerr << "Reference: " << std::setprecision(17) << +ref[i] <<
                  "\nGPU      : " << +gpu[i] << std::endl;
+	  system("pause");
       exit(1);
     }
   }
@@ -52,6 +54,7 @@ void checkResultsEps(const T* const ref, const T* const gpu, size_t numElem, dou
       std::cerr << "Difference at pos " << +i << " exceeds tolerance of " << eps1 << std::endl;
       std::cerr << "Reference: " << std::setprecision(17) << +ref[i] <<
         "\nGPU      : " << +gpu[i] << std::endl;
+	  system("pause");
       exit(1);
     }
     totalDiff += diff * diff;
@@ -60,7 +63,8 @@ void checkResultsEps(const T* const ref, const T* const gpu, size_t numElem, dou
   if (percentSmallDifferences > eps2) {
     std::cerr << "Total percentage of non-zero pixel difference between the two images exceeds " << 100.0 * eps2 << "%" << std::endl;
     std::cerr << "Percentage of non-zero pixel differences: " << 100.0 * percentSmallDifferences << "%" << std::endl;
-    exit(1);
+	system("pause");
+	exit(1);
   }
 }
 
@@ -81,7 +85,8 @@ void checkResultsAutodesk(const T* const ref, const T* const gpu, size_t numElem
 
   if (numBadPixels > tolerance) {
     std::cerr << "Too many bad pixels in the image." << numBadPixels << "/" << tolerance << std::endl;
-    exit(1);
+	system("pause");
+	exit(1);
   }
 }
 
